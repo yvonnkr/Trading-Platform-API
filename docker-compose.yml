@@ -1,0 +1,27 @@
+name: "trading-platform"
+
+services:
+  postgres:
+    container_name: postgres-tpa
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: trading
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - trading-platform
+    restart: unless-stopped
+
+
+networks:
+  trading-platform:
+    driver: bridge
+
+volumes:
+  postgres:
+    driver: local
