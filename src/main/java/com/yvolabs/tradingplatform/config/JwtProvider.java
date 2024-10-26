@@ -28,10 +28,7 @@ public class JwtProvider {
     public static String generateToken(Authentication auth) {
 
         Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
-        log.info("auth: {}", auth);
-        log.info("authorities: {}", authorities);
         String roles = populateAuthorities(authorities);
-        log.info("roles: {}", roles);
 
         return Jwts.builder()
                 .setIssuedAt(new Date())

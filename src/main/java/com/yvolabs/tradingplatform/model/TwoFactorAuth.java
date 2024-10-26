@@ -4,6 +4,7 @@ import com.yvolabs.tradingplatform.domain.VerificationType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
  */
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Embeddable
 public class TwoFactorAuth {
@@ -22,4 +24,5 @@ public class TwoFactorAuth {
 
     @Enumerated(EnumType.STRING)
     private VerificationType sendTo;
+
 }
