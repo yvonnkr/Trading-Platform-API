@@ -2,6 +2,7 @@ package com.yvolabs.tradingplatform.exceptiion.handler;
 
 import jakarta.persistence.EntityExistsException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailSendException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import static org.springframework.http.HttpStatus.*;
@@ -71,6 +73,17 @@ public class GlobalExceptionHandler {
                 .body(ExceptionResponse.builder()
                         .businessErrorCode(UNAUTHORIZED)
                         .errors(Map.of("message", e.getMessage()))
+                        .build()
+                );
+    }
+
+    @ExceptionHandler(MailSendException.class)
+    public ResponseEntity<ExceptionResponse> handleMailSendException(MailSendException e) {
+        return ResponseEntity
+                .status(BAD_REQUEST)
+                .body(ExceptionResponse.builder()
+                        .businessErrorCode(BAD_REQUEST)
+                        .errors(Map.of("message", Objects.requireNonNull(e.getMessage())))
                         .build()
                 );
     }

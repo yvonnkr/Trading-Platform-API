@@ -24,3 +24,6 @@ application:
   security:
     jwt:
       secret-key: ${JWT_SECRET_KEY}
+  mail-sender:
+    username: ${MAIL_SENDER_USER}
+    password: ${MAIL_SENDER_PASSWORD}

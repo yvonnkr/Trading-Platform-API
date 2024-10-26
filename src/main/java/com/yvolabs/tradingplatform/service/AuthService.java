@@ -1,7 +1,9 @@
 package com.yvolabs.tradingplatform.service;
 
+import com.yvolabs.tradingplatform.dto.request.LoginRequest;
+import com.yvolabs.tradingplatform.dto.request.RegistrationRequest;
 import com.yvolabs.tradingplatform.dto.response.AuthResponse;
-import com.yvolabs.tradingplatform.model.User;
+import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityExistsException;
 
 /**
@@ -12,7 +14,8 @@ import jakarta.persistence.EntityExistsException;
 
 
 public interface AuthService {
-    String register(User registrationRequest) throws EntityExistsException;
 
-    AuthResponse login(User user);
+    String register(RegistrationRequest registrationRequest) throws EntityExistsException;
+
+    AuthResponse login(LoginRequest user) throws MessagingException;
 }
