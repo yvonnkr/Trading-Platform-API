@@ -9,10 +9,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Yvonne N
@@ -45,6 +43,11 @@ public class AuthController {
 
         AuthResponse res = this.authService.login(loginRequest);
         return new ResponseEntity<>(res, HttpStatus.OK);
+    }
 
+    @PostMapping("/two-factor/otp/{otp}")
+    public ResponseEntity<AuthResponse> verifySigninOTP(@PathVariable String otp, @RequestParam String otpId) throws BadCredentialsException {
+        AuthResponse res = this.authService.verifySignOTP(otp, otpId);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 }
