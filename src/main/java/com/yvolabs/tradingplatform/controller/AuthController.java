@@ -3,6 +3,7 @@ package com.yvolabs.tradingplatform.controller;
 import com.yvolabs.tradingplatform.dto.request.LoginRequest;
 import com.yvolabs.tradingplatform.dto.request.RegistrationRequest;
 import com.yvolabs.tradingplatform.dto.response.AuthResponse;
+import com.yvolabs.tradingplatform.model.User;
 import com.yvolabs.tradingplatform.service.AuthService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -39,7 +40,7 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) throws MessagingException {
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody User loginRequest) throws MessagingException {
 
         AuthResponse res = this.authService.login(loginRequest);
         return new ResponseEntity<>(res, HttpStatus.OK);

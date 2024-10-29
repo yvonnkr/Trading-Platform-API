@@ -67,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthResponse login(LoginRequest loginRequest) throws MessagingException {
+    public AuthResponse login(User loginRequest) throws MessagingException {
         String userName = loginRequest.getEmail();
         String password = loginRequest.getPassword();
 
@@ -79,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
         User authUser = userRepository.findByEmail(userName)
                 .orElseThrow(() -> new BadCredentialsException("Invalid username or password"));
 
-        if (loginRequest.isEnabled()) {
+        if (loginRequest.getTwoFactorAuth().isEnabled()) {
 
             authUser.getTwoFactorAuth().setEnabled(true);
             userRepository.save(authUser);
