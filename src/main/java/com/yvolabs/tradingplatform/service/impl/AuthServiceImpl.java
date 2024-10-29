@@ -67,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthResponse login(LoginRequest loginRequest) throws MessagingException {
+    public AuthResponse login(User loginRequest) throws MessagingException {
         String userName = loginRequest.getEmail();
         String password = loginRequest.getPassword();
 
@@ -79,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
         User authUser = userRepository.findByEmail(userName)
                 .orElseThrow(() -> new BadCredentialsException("Invalid username or password"));
 
-        if (loginRequest.isEnabled()) {
+        if (loginRequest.getTwoFactorAuth().isEnabled()) {
 
             authUser.getTwoFactorAuth().setEnabled(true);
             userRepository.save(authUser);
@@ -111,6 +111,21 @@ public class AuthServiceImpl implements AuthService {
         return res;
 
     }
+
+    @Override
+    public AuthResponse verifySignOTP(String otp, String otpId) throws BadCredentialsException {
+        TwoFactorOTP twoFactorOTP = twoFactorOTPService.findById(otpId);
+        if (twoFactorOTPService.verifyTwoFactorOTP(twoFactorOTP, otp)) {
+            AuthResponse res = new AuthResponse();
+            res.setMessage("Two factor authentication verified");
+            res.setTwoFactorAuthEnabled(true);
+            res.setJwt(twoFactorOTP.getJwt());
+
+            return res;
+        }
+        throw new BadCredentialsException("Invalid OTP");
+    }
+
 
     private Authentication authenticate(String username, String password) {
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);

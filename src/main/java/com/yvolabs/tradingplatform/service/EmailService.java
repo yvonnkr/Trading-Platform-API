@@ -35,7 +35,7 @@ public class EmailService {
 
         try {
             javaMailSender.send(mimeMessage);
-            log.info("Email sent successfully sent to " + email);
+            log.info("Email sent successfully to: {} ", email);
         } catch (MailException e) {
             log.error(e.getMessage());
             throw new MailSendException(e.getMessage());

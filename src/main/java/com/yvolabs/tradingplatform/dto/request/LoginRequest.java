@@ -23,6 +23,4 @@ public class LoginRequest {
     private String email;
     private String password;
 
-    //2fa
-    private boolean isEnabled = false;
 }
