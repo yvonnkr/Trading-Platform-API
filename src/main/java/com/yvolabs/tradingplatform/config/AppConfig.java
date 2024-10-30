@@ -27,6 +27,8 @@ public class AppConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(Authorize -> Authorize
+                        .requestMatchers("/api/users/reset-password/send-otp").permitAll()
+                        .requestMatchers("/api/users/reset-password/verify-otp").permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll()
                 )

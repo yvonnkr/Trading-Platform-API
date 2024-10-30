@@ -1,6 +1,7 @@
 package com.yvolabs.tradingplatform.exceptiion.handler;
 
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSendException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -50,6 +51,17 @@ public class GlobalExceptionHandler {
                 .status(BAD_REQUEST)
                 .body(ExceptionResponse.builder()
                         .businessErrorCode(BAD_REQUEST)
+                        .errors(Map.of("message", e.getMessage()))
+                        .build()
+                );
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleEntityNotFoundException(EntityNotFoundException e) {
+        return ResponseEntity
+                .status(NOT_FOUND)
+                .body(ExceptionResponse.builder()
+                        .businessErrorCode(NOT_FOUND)
                         .errors(Map.of("message", e.getMessage()))
                         .build()
                 );
